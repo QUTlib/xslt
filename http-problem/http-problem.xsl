@@ -129,7 +129,7 @@ th{background:#ccc}
           <xsl:when test=". = '507'"> Insufficient Storage</xsl:when>
           <xsl:when test=". = '508'"> Loop Detected</xsl:when>
           <xsl:when test=". = '510'"> Not Extended</xsl:when>
-          <xsl:when test=". = '511'"> Network AUthentication Required</xsl:when>
+          <xsl:when test=". = '511'"> Network Authentication Required</xsl:when>
         </xsl:choose>
       </td>
     </tr>
