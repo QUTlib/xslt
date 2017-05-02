@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="/assets/generic-xml.xsl" type="text/xsl"?>
-<xsl:stylesheet version="1.0" xmlns:p="urn:ietf:rfc:XXXX" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
+<xsl:stylesheet version="1.0" xmlns:p="urn:ietf:rfc:7807" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
   <xsl:output method="xml" omit-xml-declaration="yes" indent="no" encoding="UTF-8" media-type="application/xhtml+xml" cdata-section-elements="style" doctype-system="about:legacy-compat"/>
   <xsl:strip-space elements="*"/>
   <xsl:template match="/">
@@ -42,9 +42,21 @@ th{background:#ccc}
     </html>
   </xsl:template>
   <xsl:template match="p:problem" priority="1">
+    <xsl:variable name="type">
+      <xsl:choose>
+        <xsl:when test="p:type"><xsl:value-of select="p:type"/></xsl:when>
+        <xsl:otherwise>about:blank</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="title">
+      <xsl:choose>
+        <xsl:when test="p:title"><xsl:value-of select="p:title"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="$type"/></xsl:when>
+      </xsl:choose>
+    </xsl:variable>
     <div>
-      <div class="title"><xsl:value-of select="p:title"/></div>
-      <div class="type">(<xsl:value-of select="p:problemType"/>)</div>
+      <div class="title"><xsl:value-of select="$title"/></div>
+      <div class="type">(<xsl:value-of select="$type"/>)</div>
     </div>
     <table>
       <tr>
@@ -60,13 +72,13 @@ th{background:#ccc}
       <td><xsl:value-of select="."/></td>
     </tr>
   </xsl:template>
-  <xsl:template match="p:problemInstance" priority="1">
+  <xsl:template match="p:instance" priority="1">
     <tr>
-      <td>Problem Instance</td>
+      <td>Instance</td>
       <td><a href="{.}"><xsl:value-of select="."/></a></td>
     </tr>
   </xsl:template>
-  <xsl:template match="p:httpStatus" priority="1">
+  <xsl:template match="p:status" priority="1">
     <tr>
       <td>HTTP Status</td>
       <td>
@@ -137,7 +149,7 @@ th{background:#ccc}
   <xsl:template match="*[name()]" priority="0">
     <xsl:choose>
       <xsl:when test="name() = 'title'" />
-      <xsl:when test="name() = 'problemType'" />
+      <xsl:when test="name() = 'type'" />
       <xsl:otherwise>
         <tr>
           <td><xsl:value-of select="name()"/></td>
